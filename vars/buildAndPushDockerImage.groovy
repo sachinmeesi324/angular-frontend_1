@@ -12,7 +12,7 @@ def call(String imageName, String awsAccountId, String awsRegion) {
                             credentialsId: 'K8s',
                             secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                         ]]) {
-                            bat ' "aws ecr get-login-password --region ${awsRegion} | docker login --username AWS --password-stdin ${awsAccountId}.dkr.ecr.${awsRegion}.amazonaws.com" '
+                            bat 'aws ecr get-login-password --region ${awsRegion} | docker login --username AWS --password-stdin ${awsAccountId}.dkr.ecr.${awsRegion}.amazonaws.com'
                         }
                     }
                 }
@@ -36,8 +36,8 @@ def call(String imageName, String awsAccountId, String awsRegion) {
             stage('Pull and Run docker image') {
                 steps {
                     script {
-                        bat ' "docker pull ${awsAccountId}.dkr.ecr.${awsRegion}.amazonaws.com/${imageName}:latest" '
-                        bat ' "docker run -d -p 4200:4200 ${awsAccountId}.dkr.ecr.${awsRegion}.amazonaws.com/${imageName}:latest" '
+                        bat "docker pull ${awsAccountId}.dkr.ecr.${awsRegion}.amazonaws.com/${imageName}:latest"
+                        bat "docker run -d -p 4200:4200 ${awsAccountId}.dkr.ecr.${awsRegion}.amazonaws.com/${imageName}:latest"
                         bat 'docker ps'
                         bat 'docker ps -a'
                     }
